@@ -3,7 +3,7 @@
 
 import mysql.connector
 
-class jddb:
+class jdc_db:
 	def __init__(self):
 		self.conn = mysql.connector.connect(user = 'jd',password = 'jd',host = '192.168.1.2',db = 'jd')
 	def __del__(self):
