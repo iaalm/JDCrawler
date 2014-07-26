@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import mysql.connector
+from datetime import datetime
 
 class jdc_db:
 	def __init__(self):
@@ -31,28 +32,17 @@ class jdc_db:
 		self.updateSQL('insert into meta values ("user_max",100)')
 		
 	def addItem(self,iid,name):
-		self.updateSQL('insert into item(id,name) value ({0},"{1}")'.format(iid,name))
+		self.updateSQL('insert into item(id,name) values ({0},"{1}")'.format(iid,name))
 
 	def addUser(self,uid,name):
-		self.updateSQL('insert into user(id,name) value ({0},"{1}")'.format(uid,name))
+		self.updateSQL('insert into user(id,name) values ({0},"{1}")'.format(uid,name))
 
-	def addBuy(self,user,item,time):
-		self.updateSQL('insert into buy(uid,iid,time) value ({0},"{1}","{2}")'.format(user,item,time))
+	def addBuy(self,user,item):
+		self.updateSQL('insert into buy(uid,iid,time) values ({0},{1},"{2}")'.format(user,item[0],item[1]))
 
 	def getUser(self):
-		sql = 'select id from user'
-		cur = self.conn.cursor()
-		try:
-			cur.execute(sql)
-			while True:
-				yield cur.__next__()
-		except StopIteration:
-			pass
-		except mysql.connector.Error as e:
-			print("Mysql Error")
-		finally:
-			self.conn.commit()
-			cur.close()
+		i = self.getMeta('user_max')
+		return range(i,100-1,-1)
 		
 	def getMeta(self,key):
 		sql = 'select v from meta where k = "{0}"'
@@ -93,7 +83,6 @@ class jdc_db:
 		
 			
 if __name__ == "__main__" :
-	from datetime import datetime
 	db = jdc_db()
 	db.restart()
 	db.init_db()
