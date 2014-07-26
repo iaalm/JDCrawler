@@ -30,7 +30,7 @@ class jdc_db:
 		self.updateSQL('create table buy (uid int,iid int,foreign key (uid) references user(id),time datetime,foreign key (iid) references item(id))')
 		self.updateSQL('insert into meta values ("item_max",100001)')
 		self.updateSQL('insert into meta values ("user_max",100)')
-		self.updateSQL('insert into meta values ("buy",99)')
+		self.updateSQL('insert into meta values ("buy_max",99)')
 		
 	def addItem(self,iid,name):
 		self.updateSQL('insert into item(id,name) values ({0},"{1}")'.format(iid,name))
@@ -42,7 +42,9 @@ class jdc_db:
 		self.updateSQL('insert into buy(uid,iid,time) values ({0},{1},"{2}")'.format(user,item[0],item[1]))
 
 	def getUser(self):
-		i = self.getMeta('user_max')
+		i = self.getMeta('buy_max')
+		if i == 99 :
+			i = self.getMeta('user_max')
 		return range(i,100-1,-1)
 		
 	def getMeta(self,key):
