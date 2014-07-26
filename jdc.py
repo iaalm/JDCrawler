@@ -47,10 +47,14 @@ def user(db):
 	finally:		
 		db.setMeta('user_max',i - fail)
 def buy(db):
-	for user in db.getUser():
-		time = db.getBuyUpdateTime(user)
-		for item in jdc_url.getBuy(user,time):
-			db.addBuy(user,item)
+	try:
+		for user in db.getUser():
+			time = db.getBuyUpdateTime(user)
+			for item in jdc_url.getBuy(user,time):
+				db.addBuy(user,item)
+	except KeyboardInterrupt:
+		db.setMeta('buy_max',user)
+	db.setMeta('buy_max',99)
 
 def start(db):
 	init(db)

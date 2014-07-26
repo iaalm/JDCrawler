@@ -30,6 +30,7 @@ class jdc_db:
 		self.updateSQL('create table buy (uid int,iid int,foreign key (uid) references user(id),time datetime,foreign key (iid) references item(id))')
 		self.updateSQL('insert into meta values ("item_max",100001)')
 		self.updateSQL('insert into meta values ("user_max",100)')
+		self.updateSQL('insert into meta values ("buy",99)')
 		
 	def addItem(self,iid,name):
 		self.updateSQL('insert into item(id,name) values ({0},"{1}")'.format(iid,name))
