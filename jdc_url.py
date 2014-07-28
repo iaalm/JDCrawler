@@ -18,6 +18,8 @@ def getItem(id):
 		return None
 	except UnicodeDecodeError:
 		data = ""
+	except http.client.IncompleteRead:
+		continue
 	except socket.timeout:
 		data = ""
 		print("time out")
